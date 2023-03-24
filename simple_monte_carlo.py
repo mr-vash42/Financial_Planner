@@ -2,7 +2,7 @@ import unittest
 
 
 class MonteCarloSimulation:
-    def __init__(self, rates_of_return: list[float], starting_money: float, expenses: float):
+    def __init__(self, rates_of_return: list[float], starting_money: float, expenses: list[float]):
         self.rates_of_return = rates_of_return
         self.current_money = starting_money
 
@@ -12,20 +12,21 @@ class MonteCarloSimulation:
 
 
 class MyTestCase(unittest.TestCase):
-    def test_one_period(self) -> None:
-        sim = MonteCarloSimulation(rates_of_return=[.1], starting_money=1, expenses=[0])
+
+    def assert_simulation_result(self, expected_ending_money, rates_of_return, starting_money, expenses) -> None:
+        sim = MonteCarloSimulation(rates_of_return, starting_money, expenses)
         sim.run()
-        self.assertEqual(sim.current_money, 1.1)
+        self.assertEqual(sim.current_money, expected_ending_money)
+
+    def test_one_period(self) -> None:
+        self.assert_simulation_result(1.1, [.1], 1, [0])
 
     def test_two_periods(self) -> None:
-        sim = MonteCarloSimulation(rates_of_return=[.1, .2], starting_money=1, expenses=[0, 0])
-        sim.run()
-        self.assertEqual(sim.current_money, 1.32)
+        self.assert_simulation_result(1.32, [.1, .2], 1, [0, 0])
 
     def test_two_periods_adding_expenses(self) -> None:
-        sim = MonteCarloSimulation(rates_of_return=[.01, .01], starting_money=1000000, expenses=[5000, 5000])
-        sim.run()
-        self.assertAlmostEqual(sim.current_money, 1009950)
+        self.assert_simulation_result(1009950, [.01, .01], 1000000, [5000, 5000])
+
 
 
 if __name__ == '__main__':
