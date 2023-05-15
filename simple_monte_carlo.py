@@ -23,17 +23,22 @@ class MyTestCase(unittest.TestCase):
         else:
             incomes = list(numpy.zeros(len(per_period_info['rates_of_return'])))
 
+        if 'expenses' in per_period_info:
+            expenses = per_period_info['expenses']
+        else:
+            expenses = list(numpy.zeros(len(per_period_info['rates_of_return'])))
+
         sim = MonteCarloSimulation(per_period_info['rates_of_return'], starting_money,
-                                   per_period_info['expenses'], incomes)
+                                   expenses, incomes)
         sim.run()
         self.assertEqual(sim.current_money, expected_ending_money)
 
     def test_one_period(self) -> None:
-        per_period_info = {'rates_of_return': [.1], 'expenses': [0.0]}
+        per_period_info = {'rates_of_return': [.1]}
         self.assert_simulation_result(1.1, starting_money=1, per_period_info=per_period_info)
 
     def test_two_periods(self) -> None:
-        per_period_info = {'rates_of_return': [.1, .2], 'expenses': [0.0, 0.0]}
+        per_period_info = {'rates_of_return': [.1, .2]}
         self.assert_simulation_result(1.32, starting_money=1, per_period_info=per_period_info)
 
     def test_two_periods_adding_expenses(self) -> None:
