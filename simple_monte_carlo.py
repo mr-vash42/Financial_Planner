@@ -15,7 +15,7 @@ class MonteCarloSimulation:
             self.current_money = (rate_of_return + 1) * self.current_money
 
 
-class MyTestCase(unittest.TestCase):
+class SimulationTests(unittest.TestCase):
 
     def assert_simulation_result(self, expected_ending_money: float, starting_money: float, per_period_info: dict[str, list[float]]) -> None:
         if 'incomes' in per_period_info:
