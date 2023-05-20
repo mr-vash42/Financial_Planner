@@ -2,14 +2,14 @@ import unittest
 
 
 class Taxes:
-    def __init__(self, flat_tax=0, flat_rate_tax=0):
+    def __init__(self, flat_tax=0., flat_rate_tax=0.):
         self.flat_tax = flat_tax
         self.flat_rate_rate = flat_rate_tax
 
-    def get_total_tax(self, gross):
+    def get_total_tax(self, gross: float) -> float:
         return self.flat_tax + (gross * self.flat_rate_rate)
 
-    def get_income_net_of_taxes(self, gross):
+    def get_income_net_of_taxes(self, gross: float) -> float:
         return gross - self.get_total_tax(gross)
 
 
