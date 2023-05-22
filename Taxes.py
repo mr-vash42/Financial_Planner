@@ -57,7 +57,6 @@ class TestTaxes(unittest.TestCase):
         self.assertEqual(74208. + (.32 * 10000), taxes.get_total_tax(364200 + 10000))
         self.assertEqual(299914., taxes.get_total_tax(10**6))
 
-
     def test_all_taxes_together(self):
         self.assertEqual(True, False)
 
