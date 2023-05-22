@@ -45,8 +45,21 @@ class TestTaxes(unittest.TestCase):
         self.assertEqual(1000, taxes.get_total_tax(60000))
         self.assertEqual(4000, taxes.get_total_tax(80000))
 
-    # def test_2023_federal_tax_rates(self):
-    #     taxes =
+    def test_2023_federal_tax_married_rates(self):
+        taxes = Taxes(terminal_tax_rate=.37, graduated_tax_rates=OrderedDict([(22000, .1),
+                                                                              (67450, .12),
+                                                                              (101300, .22),
+                                                                              (173450, .24),
+                                                                              (98300, .32),
+                                                                              (231250, .35),
+                                                                              ]))
+        self.assertEqual(10294., taxes.get_total_tax(89450))
+        self.assertEqual(74208. + (.32 * 10000), taxes.get_total_tax(364200 + 10000))
+        self.assertEqual(299914., taxes.get_total_tax(10**6))
+
+
+    def test_all_taxes_together(self):
+        self.assertEqual(True, False)
 
 
 if __name__ == '__main__':
