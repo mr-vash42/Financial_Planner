@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 
 class Taxes:
-    def __init__(self, flat_tax=0., flat_rate_tax=0., graduated_tax_rates=OrderedDict(), terminal_tax_rate=0.):
+    def __init__(self, flat_tax=0., flat_rate_tax=0., graduated_tax_rates=OrderedDict(), terminal_tax_rate=0.) -> None:
         self.flat_tax = flat_tax
         self.flat_rate_rate = flat_rate_tax
         self.graduated_tax_rates = graduated_tax_rates
@@ -58,7 +58,8 @@ class TestTaxes(unittest.TestCase):
         self.assertEqual(299914., taxes.get_total_tax(10**6))
 
     def test_all_taxes_together(self):
-        self.assertEqual(True, False)
+        taxes = Taxes(100, .10, OrderedDict([(2000, 0), (40000, .20)]), .25)
+        self.assertEqual(100 + 8000 + 0 + 8000 + 9500, taxes.get_total_tax(80000.))
 
 
 if __name__ == '__main__':
