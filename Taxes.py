@@ -1,9 +1,8 @@
 import unittest
-from collections import OrderedDict
 
 
 class Taxes:
-    def __init__(self, flat_tax=0., flat_rate_tax=0., graduated_tax_rates=OrderedDict(), terminal_tax_rate=0.) -> None:
+    def __init__(self, flat_tax=0., flat_rate_tax=0., graduated_tax_rates={}, terminal_tax_rate=0.) -> None:
         self.flat_tax = flat_tax
         self.flat_rate_rate = flat_rate_tax
         self.graduated_tax_rates = graduated_tax_rates
@@ -40,25 +39,25 @@ class TestTaxes(unittest.TestCase):
         self.assertEqual(4250, taxes.get_income_net_of_taxes(5000))
 
     def test_graduated_tax_rate(self):
-        taxes = Taxes(graduated_tax_rates=OrderedDict([(50000, 0), (20000, .10)]), terminal_tax_rate=.20)
+        taxes = Taxes(graduated_tax_rates={50000: 0, 20000: .10}, terminal_tax_rate=.20)
         self.assertEqual(0, taxes.get_total_tax(50000))
         self.assertEqual(1000, taxes.get_total_tax(60000))
         self.assertEqual(4000, taxes.get_total_tax(80000))
 
     def test_2023_federal_tax_married_rates(self):
-        taxes = Taxes(terminal_tax_rate=.37, graduated_tax_rates=OrderedDict([(22000, .1),
-                                                                              (67450, .12),
-                                                                              (101300, .22),
-                                                                              (173450, .24),
-                                                                              (98300, .32),
-                                                                              (231250, .35),
-                                                                              ]))
+        taxes = Taxes(terminal_tax_rate=.37, graduated_tax_rates={22000: .1,
+                                                                  67450: .12,
+                                                                  101300: .22,
+                                                                  173450: .24,
+                                                                  98300: .32,
+                                                                  231250: .35
+                                                                  })
         self.assertEqual(10294., taxes.get_total_tax(89450))
         self.assertEqual(74208. + (.32 * 10000), taxes.get_total_tax(364200 + 10000))
         self.assertEqual(299914., taxes.get_total_tax(10**6))
 
     def test_all_taxes_together(self):
-        taxes = Taxes(100, .10, OrderedDict([(2000, 0), (40000, .20)]), .25)
+        taxes = Taxes(100, .10, {2000: 0, 40000: .20}, .25)
         self.assertEqual(100 + 8000 + 0 + 8000 + 9500, taxes.get_total_tax(80000.))
 
 
