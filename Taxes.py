@@ -68,12 +68,15 @@ class TestTaxes(unittest.TestCase):
 
     def test_2023_federal_tax_married_rates(self):
         taxes = Taxes([GraduatedRatesTax(terminal_tax_rate=.37, tax_rates={22000: .1,
-                                                                  67450: .12,
-                                                                  101300: .22,
-                                                                  173450: .24,
-                                                                  98300: .32,
-                                                                  231250: .35
-                                                                  })])
+                                                                           67450: .12,
+                                                                           101300: .22,
+                                                                           173450: .24,
+                                                                           98300: .32,
+                                                                           231250: .35
+                                                                           }
+                                         )
+                       ]
+                      )
         self.assertEqual(10294., taxes.get_total_tax(89450))
         self.assertEqual(74208. + (.32 * 10000), taxes.get_total_tax(364200 + 10000))
         self.assertEqual(299914., taxes.get_total_tax(10**6))
