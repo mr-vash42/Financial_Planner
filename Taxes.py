@@ -6,10 +6,7 @@ class Taxes:
         self.taxes = taxes
 
     def get_total_tax(self, gross_income: float) -> float:
-        total_taxes = 0
-        for tax in self.taxes:
-            total_taxes += tax.get_tax_contribution(gross_income)
-        return total_taxes
+        return sum([tax.get_tax_contribution(gross_income) for tax in self.taxes])
 
     def get_income_net_of_taxes(self, gross: float) -> float:
         return gross - self.get_total_tax(gross)
