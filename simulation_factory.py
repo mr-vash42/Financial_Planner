@@ -1,8 +1,9 @@
 import numpy
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # type: ignore
+from simple_monte_carlo import MonteCarloSimulation
 
-mean = 10
-std_dev = 1
+mean = .08/12
+std_dev = .041
 
 
 def display_distribution(generated_numbers, mean, std_dev):
@@ -14,10 +15,14 @@ def display_distribution(generated_numbers, mean, std_dev):
 
 
 if __name__ == '__main__':
-    a = numpy.random.default_rng().normal(mean, std_dev, 10000)
-    b = numpy.random.default_rng().lognormal(mean, std_dev, 100)
-    display_distribution(a, mean, std_dev)
-    print(b)
+    a = numpy.random.default_rng().normal(mean, std_dev, 40*12)
+    len_a_zeroes = [float(x) for x in (numpy.zeros(len(a)))]
+    # display_distribution(a, mean, std_dev)
+    mc_sim = MonteCarloSimulation(a, 1, len_a_zeroes, len_a_zeroes)
+    mc_sim.run()
+    print(mc_sim.current_money)
+    print(a[:10])
+
 
 
 
