@@ -6,7 +6,7 @@ mean = .08/12
 std_dev = .041
 
 
-def display_distribution(generated_numbers, mean, std_dev):
+def display_distribution(generated_numbers, mean, std_dev) -> None:
     count, bins, ignored = plt.hist(generated_numbers, 30, density=True)
     plt.plot(bins, 1 / (std_dev * numpy.sqrt(2 * numpy.pi)) *
              numpy.exp(- (bins - mean) ** 2 / (2 * std_dev ** 2)),
@@ -15,13 +15,13 @@ def display_distribution(generated_numbers, mean, std_dev):
 
 
 if __name__ == '__main__':
-    a = numpy.random.default_rng().normal(mean, std_dev, 40*12)
-    len_a_zeroes = [float(x) for x in (numpy.zeros(len(a)))]
-    # display_distribution(a, mean, std_dev)
-    mc_sim = MonteCarloSimulation(a, 1, len_a_zeroes, len_a_zeroes)
+    monthly_returns = numpy.random.default_rng().normal(mean, std_dev, 40 * 12)
+    len_a_zeroes = [float(x) for x in (numpy.zeros(len(monthly_returns)))]
+#    display_distribution(monthly_returns, mean, std_dev)
+    mc_sim = MonteCarloSimulation(monthly_returns, 1, len_a_zeroes, len_a_zeroes)
     mc_sim.run()
     print(mc_sim.current_money)
-    print(a[:10])
+    print(monthly_returns[:10])
 
 
 
